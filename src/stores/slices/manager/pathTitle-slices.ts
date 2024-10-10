@@ -4,14 +4,14 @@ export type PathData = {
   path: string;
   mainTitle: string;
   mainUrl: string;
-  subTitle: string | null;
+  subTitle: string;
 };
 
 const initialState = {
   path: "/manager/theater",
   mainTitle: "상영관 관리",
   mainUrl: "/manager/theater",
-  subTitle: null,
+  subTitle: "",
 } as PathData;
 
 export const pathTitle = createSlice({

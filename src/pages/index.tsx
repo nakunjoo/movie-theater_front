@@ -15,7 +15,6 @@ const Home = () => {
       password,
     })
       .then((res) => {
-        console.log("res:", res);
         if (res.data.success === true) {
           Axios.defaults.headers.common[
             "Authorization"

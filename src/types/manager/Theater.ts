@@ -4,13 +4,13 @@ export type TheaterType = {
   type: string;
   number_seats: number;
   seats: TheaterSeat[] | null;
-  created_at: Date;
-  updated_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type TheaterSeat = {
   line: string;
   rows: string[];
-  created_at: Date;
-  updated_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
 };

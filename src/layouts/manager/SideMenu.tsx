@@ -6,7 +6,6 @@ const SideMenu = ({
   pathName: string;
   menus: menuType[];
 }) => {
-  console.log("pathName:", pathName);
   return (
     <div className="float-left w-[200px] h-screen bg-gray-200 ">
       <ul className="mt-20">

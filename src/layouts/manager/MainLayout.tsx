@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/stores/index";
 import { setPath } from "@/stores/slices/manager/pathTitle-slices";
-import styled from "styled-components";
 
 export type menuType = {
   num: number;
@@ -35,16 +34,25 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
     },
   ];
   useEffect(() => {
-    if (!router) return;
-    if (!router.pathname) return;
     for (const menu of menus) {
-      if (menu.url.includes(router.pathname)) {
+      if (router.pathname.includes(menu.url)) {
+        let sub: string = "";
+        if (router.pathname.includes("add")) {
+          sub = "추가";
+        } else if (router.pathname.includes("update")) {
+          sub = "수정";
+        } else if (router.pathname.includes("detail")) {
+          sub = "상세";
+        }
+        if (sub) {
+          sub = menu.name.replace("관리", sub);
+        }
         dispatch(
           setPath({
             path: router.pathname,
             mainTitle: menu.name,
             mainUrl: menu.url,
-            subTitle: null,
+            subTitle: sub,
           })
         );
       }
@@ -56,14 +64,8 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <SideMenu pathName={router.pathname} menus={menus} />
       <div>
         <Header />
-        <MainWrap className="absolute left-[200px] top-18 p-4 ">
-          {children}
-        </MainWrap>
+        <div className="mainWrap">{children}</div>
       </div>
     </div>
   );
 };
-
-const MainWrap = styled.div`
-  width: calc(100% - 200px);
-`;
