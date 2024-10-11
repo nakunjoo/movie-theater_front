@@ -8,7 +8,6 @@ const TheaterMain = () => {
   const [theaterList, setTheaterList] = useState([]);
   useEffect(() => {
     Axios.get("/theater/list").then((res) => {
-      console.log(res.data);
       setTheaterList(res.data.data);
     });
   }, []);

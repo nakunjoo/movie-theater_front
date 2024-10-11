@@ -1,24 +1,21 @@
 import { useEffect, useState } from "react";
 import { seatName } from "@/lib/TypeValue";
-import { lineData } from "@/lib/TheaterSeat";
+import { setLineData } from "@/lib/TheaterSeat";
 import { Axios } from "@/lib/Axios";
 import { useRouter } from "next/router";
+import { TheaterType } from "@/types/manager/Theater";
 
-export const TheaterForm = ({ type }: { type: string }) => {
+export const TheaterForm = ({
+  type,
+  theater,
+}: {
+  type: string;
+  theater: TheaterType | null;
+}) => {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [kind, setKind] = useState("00");
-  const [aLine, setALine] = useState(lineData.A);
-  const [bLine, setBLine] = useState(lineData.B);
-  const [cLine, setCLine] = useState(lineData.C);
-  const [dLine, setDLine] = useState(lineData.D);
-  const [eLine, setELine] = useState(lineData.E);
-  const [fLine, setFLine] = useState(lineData.F);
-  const [gLine, setGLine] = useState(lineData.G);
-  const [hLine, setHLine] = useState(lineData.H);
-  const [iLine, setILine] = useState(lineData.I);
-  const [jLine, setJLine] = useState(lineData.J);
-  const [kLine, setKLine] = useState(lineData.K);
+  const [lines, setLines] = useState(setLineData);
 
   const [numberSeat, setNumberSeat] = useState(0);
   const theaterKind = [
@@ -40,23 +37,28 @@ export const TheaterForm = ({ type }: { type: string }) => {
     },
   ];
 
-  const seats = [
-    aLine,
-    bLine,
-    cLine,
-    dLine,
-    eLine,
-    fLine,
-    gLine,
-    hLine,
-    iLine,
-    jLine,
-    kLine,
-  ];
+  useEffect(() => {
+    if (!theater) {
+      setTitle("");
+      setKind("00");
+      setLines(setLineData);
+      return;
+    }
+    setTitle(theater.name);
+    setKind(theater.type);
+    console.log("theater:", theater);
+    if (theater.seat) {
+      const clone = { ...lines };
+      for (const seat of theater.seat) {
+        clone[seat.line].rows = seat.rows;
+      }
+      setLines(clone);
+    }
+  }, [theater]);
 
   useEffect(() => {
     let num: number = 0;
-    for (const seat of seats) {
+    for (const seat of Object.values(lines)) {
       for (const rows of seat.rows) {
         if (rows === "O") {
           num++;
@@ -64,66 +66,28 @@ export const TheaterForm = ({ type }: { type: string }) => {
       }
     }
     setNumberSeat(num);
-  }, [
-    aLine,
-    bLine,
-    cLine,
-    dLine,
-    eLine,
-    fLine,
-    gLine,
-    hLine,
-    iLine,
-    jLine,
-    kLine,
-  ]);
+  }, [lines]);
 
   const changeLine = (line: string, value: string[]) => {
-    if (line === "A") {
-      const clone = { ...aLine };
-      clone.rows = value;
-      setALine(clone);
-    } else if (line === "B") {
-      const clone = { ...bLine };
-      clone.rows = value;
-      setBLine(clone);
-    } else if (line === "C") {
-      const clone = { ...cLine };
-      clone.rows = value;
-      setCLine(clone);
-    } else if (line === "D") {
-      const clone = { ...dLine };
-      clone.rows = value;
-      setDLine(clone);
-    } else if (line === "E") {
-      const clone = { ...eLine };
-      clone.rows = value;
-      setELine(clone);
-    } else if (line === "F") {
-      const clone = { ...fLine };
-      clone.rows = value;
-      setFLine(clone);
-    } else if (line === "G") {
-      const clone = { ...gLine };
-      clone.rows = value;
-      setGLine(clone);
-    } else if (line === "H") {
-      const clone = { ...hLine };
-      clone.rows = value;
-      setHLine(clone);
-    } else if (line === "I") {
-      const clone = { ...iLine };
-      clone.rows = value;
-      setILine(clone);
-    } else if (line === "J") {
-      const clone = { ...jLine };
-      clone.rows = value;
-      setJLine(clone);
-    } else if (line === "K") {
-      const clone = { ...kLine };
-      clone.rows = value;
-      setKLine(clone);
+    const clone = { ...lines };
+    clone[line].rows = value;
+    setLines(clone);
+  };
+
+  const updatedTheater = () => {
+    const seat = [];
+    for (const line of Object.values(lines)) {
+      seat.push(line);
     }
+    const theaterData = {
+      id: router.query.id,
+      name: title,
+      type: kind,
+      seat,
+      number_seats: numberSeat,
+    };
+    window.localStorage.setItem("updated_theater", JSON.stringify(theaterData));
+    router.push(`/manager/theater/update`);
   };
 
   const saveTheater = () => {
@@ -131,33 +95,73 @@ export const TheaterForm = ({ type }: { type: string }) => {
       alert("극장 명을 입력해주세요.");
       return;
     }
-    Axios.post("/theater/create", {
-      name: title,
-      type: kind,
-      seats: seats,
-      number_seats: numberSeat,
-    })
-      .then((res) => {
-        console.log("res:", res.data);
-        if (res.data.success) {
-          alert("저장되었습니다.");
-          router.push("/manager/theater");
-        }
+    const seat = [];
+    for (const line of Object.values(lines)) {
+      seat.push(line);
+    }
+    if (type === "add") {
+      Axios.post("/theater/create", {
+        name: title,
+        type: kind,
+        seats: seat,
+        number_seats: numberSeat,
       })
-      .catch((err) => {
-        console.log("err:", err);
-      });
+        .then((res) => {
+          if (res.data.success) {
+            alert("저장되었습니다.");
+            router.push("/manager/theater");
+          }
+        })
+        .catch((err) => {
+          console.log("err:", err);
+        });
+    } else if (type === "update") {
+      if (!theater) return;
+      Axios.patch("/theater/update_detail", {
+        id: theater.id,
+        name: title,
+        type: kind,
+        seats: seat,
+        number_seats: numberSeat,
+      })
+        .then((res) => {
+          if (res.data.success) {
+            alert("저장되었습니다.");
+            router.push(`/manager/theater/detail?id=${theater.id}`);
+          }
+        })
+        .catch((err) => {
+          console.log("err:", err);
+        });
+    }
   };
 
   return (
     <div className="w-[80%] mx-auto mt-10">
       <div className="w-full h-20 text-right">
         {type === "detail" ? (
-          <></>
+          <button
+            type="submit"
+            className="mt-8 bg-purple-600 p-3 text-white font-bold rounded"
+            onClick={() => {
+              updatedTheater();
+            }}
+          >
+            수정
+          </button>
         ) : type === "update" ? (
-          <ul>
-            <li></li>
-            <li></li>
+          <ul className="flex justify-end">
+            <li className="mt-8 border border-solid border-purple-600 p-3 font-bold rounded mr-8">
+              취소
+            </li>
+            <li
+              className="mt-8 bg-purple-600 p-3 text-white font-bold rounded cursor-pointer"
+              onClick={() => {
+                saveTheater();
+              }}
+            >
+              저장
+            </li>
           </ul>
         ) : (
           <button
@@ -192,7 +196,7 @@ export const TheaterForm = ({ type }: { type: string }) => {
               <li
                 className={`mt-4 text-gray-500 cursor-pointer text-2xl ${
                   data.value === kind ? "text-purple-600 font-bold" : ""
-                }`}
+                } ${type === "detail" ? "pointer-events-none" : ""}`}
                 key={`theater-kind-${data.value}`}
                 onClick={() => {
                   setKind(data.value);
@@ -211,7 +215,7 @@ export const TheaterForm = ({ type }: { type: string }) => {
             screen
           </div>
           <div className="w-[90%] mx-auto mt-24">
-            {seats.map((seat, index) => {
+            {Object.values(lines).map((seat, index) => {
               return (
                 <div key={`seat-line-${index}`} className="relative">
                   <span className="absolute top-[-3px] left-[-25px] text-sm">
@@ -224,7 +228,7 @@ export const TheaterForm = ({ type }: { type: string }) => {
                           key={`seat-row-${seat.line}-${i}`}
                           className={`inline-block w-5 h-5 border border-black border-solid cursor-pointer rounded relative ${
                             row === "O" ? "bg-black" : ""
-                          }`}
+                          } ${type === "detail" ? "pointer-events-none" : ""}`}
                           onClick={() => {
                             if (seat.rows[i] === "X") {
                               seat.rows[i] = "O";

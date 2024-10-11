@@ -1,5 +1,6 @@
 import { TheaterType } from "@/types/manager/Theater";
 import { kindName } from "@/lib/TypeValue";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import dayjs from "dayjs";
 
@@ -8,6 +9,7 @@ export const TheaterList = ({
 }: {
   theaterList: TheaterType[];
 }) => {
+  const router = useRouter();
   return (
     <div className="container mx-auto mt-14">
       <div className="w-full text-right">
@@ -29,6 +31,9 @@ export const TheaterList = ({
               <div
                 key={`theater-list-${index}`}
                 className="w-[25%] border border-black border-solid rounded text-left p-4 cursor-pointer mx-10 mb-10"
+                onClick={() => {
+                  router.push(`/manager/theater/detail?id=${theater.id}`);
+                }}
               >
                 <p className="flex justify-between mb-1">
                   <span className="text-lg font-bold mr-1">극장명:</span>

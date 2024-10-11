@@ -3,7 +3,7 @@ import { type ReactElement } from "react";
 import { TheaterForm } from "@/components/manager/theater/TheaterForm";
 
 const TheaterAdd = () => {
-  return <TheaterForm type={"add"} />;
+  return <TheaterForm type={"add"} theater={null} />;
 };
 TheaterAdd.getLayout = function getLayout(page: ReactElement) {
   return <MainLayout>{page}</MainLayout>;

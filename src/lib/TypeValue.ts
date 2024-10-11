@@ -10,7 +10,7 @@ export const kindName = (type: string) => {
     case "20":
       str = "4D";
       break;
-    case "40":
+    case "30":
       str = "IMAX";
       break;
   }
