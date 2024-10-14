@@ -5,6 +5,7 @@ import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { Axios } from "@/lib/Axios";
 import { store } from "../stores/index";
+import Head from "next/head";
 import { Provider } from "react-redux";
 
 const canUseDOM = typeof window !== "undefined";
@@ -31,6 +32,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <main>
+      <Head>
+        <title>MovieTheater</title>
+      </Head>
       <Provider store={store}>
         {getLayout(<Component {...pageProps} />)}
       </Provider>

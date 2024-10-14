@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { seatName } from "@/lib/TypeValue";
-import { setLineData } from "@/lib/TheaterSeat";
+import { setLineData, theaterKind } from "@/lib/TheaterData";
 import { Axios } from "@/lib/Axios";
 import { useRouter } from "next/router";
 import { TheaterType } from "@/types/manager/Theater";
@@ -18,24 +18,6 @@ export const TheaterForm = ({
   const [lines, setLines] = useState(setLineData);
 
   const [numberSeat, setNumberSeat] = useState(0);
-  const theaterKind = [
-    {
-      name: "2D",
-      value: "00",
-    },
-    {
-      name: "3D",
-      value: "10",
-    },
-    {
-      name: "4D",
-      value: "20",
-    },
-    {
-      name: "IMAX",
-      value: "30",
-    },
-  ];
 
   useEffect(() => {
     if (!theater) {
@@ -46,7 +28,6 @@ export const TheaterForm = ({
     }
     setTitle(theater.name);
     setKind(theater.type);
-    console.log("theater:", theater);
     if (theater.seat) {
       const clone = { ...lines };
       for (const seat of theater.seat) {

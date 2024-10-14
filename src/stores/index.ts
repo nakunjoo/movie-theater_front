@@ -1,9 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import pathTitleReducer from "./slices/manager/pathTitle-slices";
-import lineDataReducer from "./slices/manager/linesData-slices";
 
 export const store = configureStore({
-  reducer: { pathTitleReducer, lineDataReducer },
+  reducer: { pathTitleReducer },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

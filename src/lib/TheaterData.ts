@@ -1,4 +1,22 @@
 import { TheaterSeat } from "@/types/manager/Theater";
+export const theaterKind = [
+  {
+    name: "2D",
+    value: "00",
+  },
+  {
+    name: "3D",
+    value: "10",
+  },
+  {
+    name: "4D",
+    value: "20",
+  },
+  {
+    name: "IMAX",
+    value: "30",
+  },
+];
 export const setLineData = () => {
   const lineData: { [key: string]: TheaterSeat } = {
     A: {

@@ -38,7 +38,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
       if (router.pathname.includes(menu.url)) {
         let sub: string = "";
         if (router.pathname.includes("add")) {
-          sub = "추가";
+          sub = "등록";
         } else if (router.pathname.includes("update")) {
           sub = "수정";
         } else if (router.pathname.includes("detail")) {
@@ -61,7 +61,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div>
-      <SideMenu pathName={router.pathname} menus={menus} />
+      <SideMenu pathName={router.pathname} menus={menus} router={router} />
       <div>
         <Header />
         <div className="mainWrap">{children}</div>

@@ -17,6 +17,25 @@ export const kindName = (type: string) => {
   return str;
 };
 
+export const deliverationName = (type: string) => {
+  let str = "";
+  switch (type) {
+    case "00":
+      str = "전체관람가";
+      break;
+    case "10":
+      str = "12세이상관람가";
+      break;
+    case "20":
+      str = "15세이상관람가";
+      break;
+    case "30":
+      str = "청소년관람불가";
+      break;
+  }
+  return str;
+};
+
 export const seatName = (name: string, line: string[], index: number) => {
   let count = 0;
   let str = "";

@@ -1,10 +1,13 @@
+import { NextRouter } from "next/router";
 import { menuType } from "./MainLayout";
 const SideMenu = ({
   pathName,
   menus,
+  router,
 }: {
   pathName: string;
   menus: menuType[];
+  router: NextRouter;
 }) => {
   return (
     <div className="float-left w-[200px] h-screen bg-gray-200 ">
@@ -18,6 +21,9 @@ const SideMenu = ({
                   ? "bg-blue-300"
                   : "hover:bg-blue-200"
               } p-8 text-xl font-bold cursor-pointer `}
+              onClick={() => {
+                router.push(menu.url);
+              }}
             >
               {menu.name}
             </li>
