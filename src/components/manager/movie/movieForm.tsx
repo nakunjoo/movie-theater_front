@@ -130,19 +130,44 @@ export const MovieForm = ({
     setImgFile(null);
   };
 
+  const deleteMovie = () => {
+    const check = confirm("삭제하시겠습니까?");
+    if (check) {
+      Axios.delete(`/movie/delete?movie_id=${router.query.id}`)
+        .then((res) => {
+          if (res.data.success) {
+            alert("삭제되었습니다.");
+            router.push("/manager/movie");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
   return (
     <div className="w-[90%] mx-auto mt-10">
       <div className="w-full h-20 text-right">
         {type === "detail" ? (
-          <button
-            type="submit"
-            className="mt-8 bg-purple-600 p-3 text-white font-bold rounded"
-            onClick={() => {
-              updatedMovie();
-            }}
-          >
-            수정
-          </button>
+          <ul className="flex justify-end">
+            <li
+              className="mt-8 bg-red-600 p-3 text-white font-bold rounded cursor-pointer mr-8"
+              onClick={() => {
+                deleteMovie();
+              }}
+            >
+              삭제
+            </li>
+            <li
+              className="mt-8 bg-purple-600 p-3 text-white font-bold rounded cursor-pointer"
+              onClick={() => {
+                updatedMovie();
+              }}
+            >
+              수정
+            </li>
+          </ul>
         ) : type === "update" ? (
           <ul className="flex justify-end">
             <li
