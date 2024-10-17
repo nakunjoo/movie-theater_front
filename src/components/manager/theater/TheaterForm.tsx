@@ -108,6 +108,7 @@ export const TheaterForm = ({
         .then((res) => {
           if (res.data.success) {
             alert("저장되었습니다.");
+            window.localStorage.setItem("updated_theater", "");
             router.push(`/manager/theater/detail?id=${theater.id}`);
           }
         })
@@ -132,7 +133,13 @@ export const TheaterForm = ({
           </button>
         ) : type === "update" ? (
           <ul className="flex justify-end">
-            <li className="mt-8 border border-solid border-purple-600 p-3 font-bold rounded mr-8">
+            <li
+              className="mt-8 border cursor-pointer border-solid border-purple-600 p-3 font-bold rounded mr-8"
+              onClick={() => {
+                window.localStorage.setItem("updated_theater", "");
+                router.push(`/manager/theater/detail?id=${theater?.id}`);
+              }}
+            >
               취소
             </li>
             <li

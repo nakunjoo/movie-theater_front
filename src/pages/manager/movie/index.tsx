@@ -1,6 +1,6 @@
 import { MainLayout } from "@/layouts/manager/MainLayout";
 import { useEffect, useState, type ReactElement } from "react";
-import { MovieList } from "@/components/manager/movie/movieList";
+import { MovieList } from "@/components/manager/movie/MovieList";
 
 import { Axios } from "@/lib/Axios";
 

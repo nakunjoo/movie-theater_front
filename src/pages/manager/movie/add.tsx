@@ -1,6 +1,6 @@
 import { MainLayout } from "@/layouts/manager/MainLayout";
 import { type ReactElement } from "react";
-import { MovieForm } from "@/components/manager/movie/movieForm";
+import { MovieForm } from "@/components/manager/movie/MovieForm";
 
 const MovieAdd = () => {
   return <MovieForm type={"add"} movie={null} />;

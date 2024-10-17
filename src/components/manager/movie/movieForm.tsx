@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale/ko";
 import Image from "next/image";
 registerLocale("ko", ko);
+import dayjs from "dayjs";
 
 export const MovieForm = ({
   type,
@@ -26,11 +27,35 @@ export const MovieForm = ({
   const [showtime, setShowtime] = useState<string | number>(0);
   const [openDate, setOpenDate] = useState<Date | null>(new Date());
   const [imgUrl, setImgUrl] = useState<string | null>(null);
+  const [imgFile, setImgFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    if (!movie) {
+      setTitle("");
+      setGenres([]);
+      setDeliberation("00");
+      setPrice(0);
+      setShowtime(0);
+      setOpenDate(new Date());
+      setImgUrl(null);
+      setImgFile(null);
+      return;
+    }
+    setTitle(movie.title);
+    setGenres(movie.genre);
+    setDeliberation(movie.deliberation);
+    setPrice(movie.price);
+    setShowtime(movie.showtime);
+    setImgUrl(movie.img_url);
+    setOpenDate(movie.open_date);
+  }, [movie]);
 
   const onChangeHandler = (file: File | null) => {
     if (file) {
       const reader = new FileReader();
+      setImgFile(file);
       reader.readAsDataURL(file);
+      console.log(file);
       return new Promise((resolve) => {
         reader.onload = () => {
           setImgUrl(reader?.result as string);
@@ -40,9 +65,70 @@ export const MovieForm = ({
     }
   };
 
-  const saveMovie = () => {};
+  const saveMovie = () => {
+    if (!title) {
+      alert("영화 제목을 입력해주세요.");
+      return;
+    }
+    if (genres.length === 0) {
+      alert("장르를 1개이상 선택해주세요.");
+      return;
+    }
+    if (!imgUrl) {
+      alert("포스터 이미지를 넣어주세요.");
+      return;
+    }
+    const formData = new FormData();
 
-  const updatedMovie = () => {};
+    formData.append("title", title);
+    formData.append("genre", JSON.stringify(genres));
+    formData.append("deliberation", deliberation);
+    formData.append("price", `${price}`);
+    formData.append("showtime", `${showtime}`);
+    formData.append("open_date", dayjs(openDate).format("YYYY-MM-DD 00:00:00"));
+
+    if (imgFile) {
+      formData.append("file", imgFile);
+    }
+    if (type === "add") {
+      Axios.post("/movie/create", formData)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.success) {
+            alert("저장되었습니다.");
+            router.push("/manager/movie");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (type === "update") {
+      if (!movie) return;
+      formData.append("id", movie.id);
+      Axios.patch("/movie/update_detail", formData)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.success) {
+            alert("저장되었습니다.");
+            window.localStorage.setItem("updated_movie", "");
+            router.push(`/manager/movie/detail?id=${movie.id}`);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const updatedMovie = () => {
+    window.localStorage.setItem("updated_movie", JSON.stringify(movie));
+    router.push(`/manager/movie/update`);
+  };
+
+  const imgReSelect = () => {
+    setImgUrl(null);
+    setImgFile(null);
+  };
 
   return (
     <div className="w-[90%] mx-auto mt-10">
@@ -59,7 +145,13 @@ export const MovieForm = ({
           </button>
         ) : type === "update" ? (
           <ul className="flex justify-end">
-            <li className="mt-8 border border-solid border-purple-600 p-3 font-bold rounded mr-8">
+            <li
+              className="mt-8 border cursor-pointer border-solid border-purple-600 p-3 font-bold rounded mr-8"
+              onClick={() => {
+                window.localStorage.setItem("updated_movie", "");
+                router.push(`/manager/movie/detail?id=${movie?.id}`);
+              }}
+            >
               취소
             </li>
             <li
@@ -88,6 +180,19 @@ export const MovieForm = ({
           <div className="2xl:w-[396px] xl:w-[297px] w-[198px] 2xl:h-[568px] xl:h-[426px] h-[284px]  mx-auto absolute top-0 left-1/2 -translate-x-1/2">
             {imgUrl ? (
               <div>
+                {type === "detail" ? (
+                  <></>
+                ) : (
+                  <Icon
+                    className="2xl:w-14 w-10 2xl:h-14 h-10 absolute cursor-pointer top-0 right-0 bg-white rounded-full"
+                    icon="ion:reload-circle-sharp"
+                    style={{ color: "#9672f8" }}
+                    onClick={() => {
+                      imgReSelect();
+                    }}
+                  />
+                )}
+
                 <Image src={imgUrl} alt="" width={396} height={568} />
               </div>
             ) : (
@@ -123,7 +228,8 @@ export const MovieForm = ({
           <div className="mt-4 w-[85%] mx-auto">
             <h3 className="2xl:text-2xl text-xl font-bold">영화 제목</h3>
             <input
-              className="p-2 mt-4 w-full border border-black border-solid border rounded mt-2 text-lg"
+              className={`p-2 mt-4 w-full border border-black border-solid border rounded mt-2 text-lg`}
+              readOnly={type === "detail" ? true : false}
               type="text"
               placeholder="영화 제목을 입력해주세요."
               value={title}
@@ -141,7 +247,7 @@ export const MovieForm = ({
                     key={`movie-genre-${index}`}
                     className={`w-[18%] my-2 text-center 2xl:text-xl xl:text-lg text-sm text-gray-600 ${
                       genres.includes(genre) ? "font-bold text-purple-700" : ""
-                    }`}
+                    } ${type === "detail" ? "pointer-events-none" : ""}`}
                   >
                     <span
                       className="cursor-pointer"
@@ -187,8 +293,9 @@ export const MovieForm = ({
           <div className="mt-6 w-[85%] mx-auto">
             <h3 className="2xl:text-2xl text-xl font-bold">상영시간</h3>
             <input
-              className="p-2 mt-4 2xl:w-[95%] w-[90%] text-right border border-black border-solid border rounded mt-2 text-lg"
+              className={`p-2 mt-4 2xl:w-[95%] w-[90%] text-right border border-black border-solid border rounded mt-2 text-lg`}
               type="number"
+              readOnly={type === "detail" ? true : false}
               placeholder="상영시간(분)"
               value={showtime}
               onChange={(e) => {
@@ -200,10 +307,11 @@ export const MovieForm = ({
           <div className="mt-6 w-[85%] mx-auto">
             <h3 className="2xl:text-2xl text-xl font-bold">금액</h3>
             <input
-              className="p-2 mt-4 2xl:w-[95%] w-[90%] text-right border border-black border-solid border rounded mt-2 text-lg"
+              className={`p-2 mt-4 2xl:w-[95%] w-[90%] text-right border border-black border-solid border rounded mt-2 text-lg`}
               type="number"
               placeholder="금액(원)"
               value={price}
+              readOnly={type === "detail" ? true : false}
               onChange={(e) => {
                 setPrice(e.target.value);
               }}
@@ -214,11 +322,12 @@ export const MovieForm = ({
             <h3 className="2xl:text-2xl text-xl font-bold">개봉일</h3>
             <DatePicker
               wrapperClassName="w-full"
-              className="p-2 mt-4 2xl:w-[95%] w-[90%] text-gray-600 cursor-pointer text-right border border-black border-solid border rounded mt-2 text-lg"
+              className={`p-2 mt-4 2xl:w-[95%] w-[90%] text-gray-600 cursor-pointer text-right border border-black border-solid border rounded mt-2 text-lg`}
               selected={openDate}
               onChange={(date) => {
                 setOpenDate(date);
               }}
+              readOnly={type === "detail" ? true : false}
               dateFormat="YYYY년 MM월 dd일"
               locale="ko"
             />
