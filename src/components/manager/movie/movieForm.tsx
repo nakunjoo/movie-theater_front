@@ -55,7 +55,6 @@ export const MovieForm = ({
       const reader = new FileReader();
       setImgFile(file);
       reader.readAsDataURL(file);
-      console.log(file);
       return new Promise((resolve) => {
         reader.onload = () => {
           setImgUrl(reader?.result as string);
@@ -93,7 +92,6 @@ export const MovieForm = ({
     if (type === "add") {
       Axios.post("/movie/create", formData)
         .then((res) => {
-          console.log(res.data);
           if (res.data.success) {
             alert("저장되었습니다.");
             router.push("/manager/movie");
@@ -107,7 +105,6 @@ export const MovieForm = ({
       formData.append("id", movie.id);
       Axios.patch("/movie/update_detail", formData)
         .then((res) => {
-          console.log(res.data);
           if (res.data.success) {
             alert("저장되었습니다.");
             window.localStorage.setItem("updated_movie", "");
@@ -152,7 +149,7 @@ export const MovieForm = ({
         {type === "detail" ? (
           <ul className="flex justify-end">
             <li
-              className="mt-8 bg-red-600 p-3 text-white font-bold rounded cursor-pointer mr-8"
+              className="bg-red-600 p-3 text-white font-bold rounded cursor-pointer mr-8"
               onClick={() => {
                 deleteMovie();
               }}
@@ -160,7 +157,7 @@ export const MovieForm = ({
               삭제
             </li>
             <li
-              className="mt-8 bg-purple-600 p-3 text-white font-bold rounded cursor-pointer"
+              className="bg-blue-600 p-3 text-white font-bold rounded cursor-pointer"
               onClick={() => {
                 updatedMovie();
               }}

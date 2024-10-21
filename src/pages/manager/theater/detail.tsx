@@ -13,7 +13,6 @@ const TheaterDetail = () => {
     if (!router.query.id) return;
     Axios.get(`/theater/detail?theater_id=${router.query.id}`)
       .then((res) => {
-        console.log(res.data);
         for (const seat of res.data.data.seat) {
           seat.rows = JSON.parse(seat.rows);
         }

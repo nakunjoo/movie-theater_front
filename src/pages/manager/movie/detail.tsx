@@ -13,7 +13,6 @@ const MovieDetail = () => {
     if (!router.query.id) return;
     Axios.get(`/movie/detail?movie_id=${router.query.id}`)
       .then((res) => {
-        console.log(res.data);
         setMovie(res.data.data);
       })
       .catch((err) => {

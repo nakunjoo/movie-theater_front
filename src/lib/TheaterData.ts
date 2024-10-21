@@ -17,6 +17,38 @@ export const theaterKind = [
     value: "30",
   },
 ];
+
+export const hourList = [
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+];
+export const minList = [
+  "00",
+  "05",
+  "10",
+  "15",
+  "20",
+  "25",
+  "30",
+  "35",
+  "40",
+  "45",
+  "50",
+  "55",
+];
+
 export const setLineData = () => {
   const lineData: { [key: string]: TheaterSeat } = {
     A: {

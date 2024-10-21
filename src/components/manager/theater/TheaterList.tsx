@@ -37,13 +37,13 @@ export const TheaterList = ({
               >
                 <p className="flex justify-between mb-1">
                   <span className="2xl:text-lg text-base font-bold mr-1">
-                    극장명:
+                    상영관명:
                   </span>
                   {theater.name}
                 </p>
                 <p className="flex justify-between mb-1">
                   <span className="2xl:text-lg text-base font-bold mr-1">
-                    극장타입:
+                    상영관타입:
                   </span>
                   {kindName(theater.type)}
                 </p>

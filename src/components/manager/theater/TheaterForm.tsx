@@ -4,6 +4,7 @@ import { setLineData, theaterKind } from "@/lib/TheaterData";
 import { Axios } from "@/lib/Axios";
 import { useRouter } from "next/router";
 import { TheaterType } from "@/types/manager/Theater";
+import { ScreeningModal } from "../modal/Screening_modal";
 
 export const TheaterForm = ({
   type,
@@ -16,8 +17,8 @@ export const TheaterForm = ({
   const [title, setTitle] = useState("");
   const [kind, setKind] = useState("00");
   const [lines, setLines] = useState(setLineData);
-
   const [numberSeat, setNumberSeat] = useState(0);
+  const [modalView, setModalView] = useState(false);
 
   useEffect(() => {
     if (!theater) {
@@ -73,7 +74,7 @@ export const TheaterForm = ({
 
   const saveTheater = () => {
     if (!title) {
-      alert("극장 명을 입력해주세요.");
+      alert("상영관 명을 입력해주세요.");
       return;
     }
     const seat = [];
@@ -138,24 +139,34 @@ export const TheaterForm = ({
     <div className="w-[80%] mx-auto mt-10">
       <div className="w-full h-20 text-right">
         {type === "detail" ? (
-          <ul className="flex justify-end">
-            <li
-              className="mt-8 bg-red-600 p-3 text-white font-bold rounded cursor-pointer mr-8"
+          <div className="flex justify-between">
+            <div
+              className="p-3 bg-purple-600 text-white font-bold rounded cursor-pointer"
               onClick={() => {
-                deleteTheater();
+                setModalView(true);
               }}
             >
-              삭제
-            </li>
-            <li
-              className="mt-8 bg-purple-600 p-3 text-white font-bold rounded cursor-pointer"
-              onClick={() => {
-                updatedTheater();
-              }}
-            >
-              수정
-            </li>
-          </ul>
+              상영영화 등록
+            </div>
+            <ul className="flex justify-end">
+              <li
+                className=" bg-red-600 p-3 text-white font-bold rounded cursor-pointer mr-8"
+                onClick={() => {
+                  deleteTheater();
+                }}
+              >
+                삭제
+              </li>
+              <li
+                className="bg-blue-600 p-3 text-white font-bold rounded cursor-pointer"
+                onClick={() => {
+                  updatedTheater();
+                }}
+              >
+                수정
+              </li>
+            </ul>
+          </div>
         ) : type === "update" ? (
           <ul className="flex justify-end">
             <li
@@ -189,11 +200,11 @@ export const TheaterForm = ({
         )}
       </div>
       <div className="mb-8">
-        <h3 className="font-bold text-xl mb-2">극장 명</h3>
+        <h3 className="font-bold text-xl mb-2">상영관 명</h3>
         <input
           className="w-full border border-gray-500 border-solid p-2 rounded text-lg"
           type="text"
-          placeholder="극장 명을 입력해주세요."
+          placeholder="상영관 명을 입력해주세요."
           value={title}
           onChange={(e) => {
             setTitle(e.target.value);
@@ -202,7 +213,7 @@ export const TheaterForm = ({
         />
       </div>
       <div className="mb-8">
-        <h3 className="font-bold text-xl mb-2">극장 종류</h3>
+        <h3 className="font-bold text-xl mb-2">상영관 종류</h3>
         <ul className="flex justify-around">
           {theaterKind.map((data) => {
             return (
@@ -241,7 +252,11 @@ export const TheaterForm = ({
                           key={`seat-row-${seat.line}-${i}`}
                           className={`inline-block w-5 h-5 border border-black border-solid cursor-pointer rounded relative ${
                             row === "O" ? "bg-black" : ""
-                          } ${type === "detail" ? "pointer-events-none" : ""}`}
+                          } ${
+                            type === "detail"
+                              ? "pointer-events-none border-none"
+                              : ""
+                          }`}
                           onClick={() => {
                             if (seat.rows[i] === "X") {
                               seat.rows[i] = "O";
@@ -274,6 +289,11 @@ export const TheaterForm = ({
           </p>
         </div>
       </div>
+      {modalView ? (
+        <ScreeningModal setModalView={setModalView} theater={theater} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

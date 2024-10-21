@@ -12,3 +12,10 @@ export type TheaterSeat = {
   line: string;
   rows: string[];
 };
+
+export type ScreeningTime = {
+  time: string;
+  start: string;
+  end: string;
+  ready: string;
+};

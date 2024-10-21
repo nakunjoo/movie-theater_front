@@ -1,3 +1,8 @@
+import { ScreeningTime } from "@/types/manager/Theater";
+import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+dayjs.extend(isBetween);
+
 export const kindName = (type: string) => {
   let str = "";
   switch (type) {
@@ -49,4 +54,21 @@ export const seatName = (name: string, line: string[], index: number) => {
     str = `${name}${count}`;
   }
   return str;
+};
+
+export const includeTime = (
+  value: string,
+  timeList: ScreeningTime[],
+  selectDate: Date | null
+) => {
+  for (const time of timeList) {
+    const start = dayjs(time.start).format("YYYY-MM-DD HH:mm");
+    const end = dayjs(time.ready).format("YYYY- MM-DD HH:mm");
+    const date = `${dayjs(selectDate).format("YYYY-MM-DD")} ${value}`;
+
+    if (dayjs(date).isBetween(start, end)) {
+      return true;
+    }
+  }
+  return false;
 };
