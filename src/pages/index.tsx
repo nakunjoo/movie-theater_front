@@ -23,7 +23,7 @@ const Home = () => {
             "Authorization",
             `Bearer ${res.data.data.token}`
           );
-          router.push("/manager/theater");
+          router.push("/manager/screening");
         }
       })
       .catch((error) => {

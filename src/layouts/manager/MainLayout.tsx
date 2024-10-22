@@ -19,16 +19,21 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const menus: menuType[] = [
     {
       num: 0,
+      name: "상영영화 관리",
+      url: "/manager/screening",
+    },
+    {
+      num: 1,
       name: "상영관 관리",
       url: "/manager/theater",
     },
     {
-      num: 1,
+      num: 2,
       name: "영화 관리",
       url: "/manager/movie",
     },
     {
-      num: 2,
+      num: 3,
       name: "고객 관리",
       url: "/manager/customer",
     },

@@ -1,4 +1,4 @@
-import { ScreeningTime } from "@/types/manager/Theater";
+import { ScreeningType } from "@/types/manager/Theater";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 dayjs.extend(isBetween);
@@ -56,16 +56,14 @@ export const seatName = (name: string, line: string[], index: number) => {
   return str;
 };
 
-export const includeTime = (
-  value: string,
-  timeList: ScreeningTime[],
-  selectDate: Date | null
-) => {
-  for (const time of timeList) {
-    const start = dayjs(time.start).format("YYYY-MM-DD HH:mm");
-    const end = dayjs(time.ready).format("YYYY- MM-DD HH:mm");
-    const date = `${dayjs(selectDate).format("YYYY-MM-DD")} ${value}`;
+export const includeTime = (date: string, screeningList: ScreeningType[]) => {
+  for (const screening of screeningList) {
+    const start = dayjs(screening.start_time).format("YYYY-MM-DD HH:mm");
+    const end = dayjs(screening.ready_time).format("YYYY- MM-DD HH:mm");
 
+    if (date === start) {
+      return true;
+    }
     if (dayjs(date).isBetween(start, end)) {
       return true;
     }

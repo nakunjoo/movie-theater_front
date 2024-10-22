@@ -43,7 +43,7 @@ body {
   width: 80%;
   max-width: 1060px;
   height: calc(100vh - 5rem);
-  max-height: 560px;
+  max-height: 580px;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -68,12 +68,32 @@ body {
 .timeWrap::-webkit-scrollbar-track {
   border-radius: 10px;
   background-color: #dccbe7;
+  cursor: pointer;
 }
 .timeWrap::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #9672f8;
+  cursor: pointer;
 }
 .timeWrap::-webkit-scrollbar-button {
+  display: none;
+}
+
+.movieWrap::-webkit-scrollbar {
+  width: 10px;
+}
+
+.movieWrap::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #dccbe7;
+  cursor: pointer;
+}
+.movieWrap::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #9672f8;
+  cursor: pointer;
+}
+.movieWrap::-webkit-scrollbar-button {
   display: none;
 }
 
@@ -93,4 +113,16 @@ input[type="number"] {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: block;
+  content: "";
+  line-height: 0;
+  color: #ff2f2f;
+}
+
+.clearfix:after {
+  clear: both;
 }

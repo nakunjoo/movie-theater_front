@@ -1,3 +1,4 @@
+import { MovieType } from "./Movie";
 export type TheaterType = {
   id: string;
   name: string;
@@ -13,9 +14,12 @@ export type TheaterSeat = {
   rows: string[];
 };
 
-export type ScreeningTime = {
-  time: string;
-  start: string;
-  end: string;
-  ready: string;
+export type ScreeningType = {
+  movie_id: MovieType;
+  theater_id: TheaterType;
+  kind: string;
+  start_time: string;
+  end_time: string;
+  ready_time: string;
+  create: boolean | undefined;
 };

@@ -8,9 +8,9 @@ export type PathData = {
 };
 
 const initialState = {
-  path: "/manager/theater",
-  mainTitle: "상영관 관리",
-  mainUrl: "/manager/theater",
+  path: "/manager/screening",
+  mainTitle: "상영영화 관리",
+  mainUrl: "/manager/screening",
   subTitle: "",
 } as PathData;
 
