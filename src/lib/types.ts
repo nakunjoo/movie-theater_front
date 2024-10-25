@@ -1,4 +1,16 @@
-import { MovieType } from "./Movie";
+export type MovieType = {
+  id: string;
+  title: string;
+  genre: string[];
+  deliberation: string;
+  price: number;
+  showtime: number;
+  img_url: string;
+  status: string;
+  open_date: Date | null;
+  theater: TheaterType[] | undefined;
+};
+
 export type TheaterType = {
   id: string;
   name: string;
@@ -7,6 +19,7 @@ export type TheaterType = {
   seat: TheaterSeat[] | null;
   createdAt: Date;
   updatedAt: Date;
+  screening: ScreeningType[] | undefined;
 };
 
 export type TheaterSeat = {
@@ -15,6 +28,7 @@ export type TheaterSeat = {
 };
 
 export type ScreeningType = {
+  id: string;
   movie_id: MovieType;
   theater_id: TheaterType;
   kind: string;

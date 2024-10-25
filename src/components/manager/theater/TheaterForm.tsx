@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { seatName } from "@/lib/TypeValue";
 import { setLineData, theaterKind } from "@/lib/TheaterData";
 import { Axios } from "@/lib/Axios";
 import { useRouter } from "next/router";
-import { TheaterType } from "@/types/manager/Theater";
+import { TheaterType } from "@/lib/types";
 import { ScreeningModal } from "../modal/Screening_modal";
+import { SeatForm } from "@/components/public/SeatForm";
 
 export const TheaterForm = ({
   type,
@@ -49,12 +49,6 @@ export const TheaterForm = ({
     }
     setNumberSeat(num);
   }, [lines]);
-
-  const changeLine = (line: string, value: string[]) => {
-    const clone = { ...lines };
-    clone[line].rows = value;
-    setLines(clone);
-  };
 
   const updatedTheater = () => {
     const seat = [];
@@ -133,6 +127,12 @@ export const TheaterForm = ({
           console.log(error);
         });
     }
+  };
+
+  const changeLine = (line: string, value: string[]) => {
+    const clone = { ...lines };
+    clone[line].rows = value;
+    setLines(clone);
   };
 
   return (
@@ -234,60 +234,12 @@ export const TheaterForm = ({
       </div>
       <div>
         <h3 className="font-bold text-xl mb-2">좌석 배치</h3>
-        <div className="w-[800px] h-[500px] mx-auto border border-black border-solid mt-4 ">
-          <div className="w-[600px] h-[50px] leading-[50px] mx-auto border-l border-r border-b border-black border-solid text-center text-lg font-bold">
-            screen
-          </div>
-          <div className="w-[90%] mx-auto mt-24">
-            {Object.values(lines).map((seat, index) => {
-              return (
-                <div key={`seat-line-${index}`} className="relative">
-                  <span className="absolute top-[-3px] left-[-25px] text-sm">
-                    {seat.line}
-                  </span>
-                  <div className="flex justify-between mt-2">
-                    {seat.rows.map((row, i) => {
-                      return (
-                        <span
-                          key={`seat-row-${seat.line}-${i}`}
-                          className={`inline-block w-5 h-5 border border-black border-solid cursor-pointer rounded relative ${
-                            row === "O" ? "bg-black" : ""
-                          } ${
-                            type === "detail"
-                              ? "pointer-events-none border-none"
-                              : ""
-                          }`}
-                          onClick={() => {
-                            if (seat.rows[i] === "X") {
-                              seat.rows[i] = "O";
-                            } else {
-                              seat.rows[i] = "X";
-                            }
-                            changeLine(seat.line, seat.rows);
-                          }}
-                        >
-                          {row === "O" ? (
-                            <span className="text-gray-300 text-[10px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
-                              {seatName(seat.line, seat.rows, i)}
-                            </span>
-                          ) : (
-                            <></>
-                          )}
-                        </span>
-                      );
-                    })}
-                  </div>
-                  <span className="absolute top-[-3px] right-[-25px] text-sm">
-                    {seat.line}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-          <p className="text-right mt-4 mr-3 text-black font-bold">
-            좌석수: {numberSeat}
-          </p>
-        </div>
+        <SeatForm
+          lines={lines}
+          type={type}
+          lineEvent={changeLine}
+          numberSeat={numberSeat}
+        />
       </div>
       {modalView ? (
         <ScreeningModal setModalView={setModalView} theater={theater} />

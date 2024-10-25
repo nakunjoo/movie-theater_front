@@ -1,6 +1,10 @@
-import { ScreeningType } from "@/types/manager/Theater";
+import { ScreeningType } from "@/lib/types";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
+import deliver_all from "../../public/movie_deliberation_all.svg";
+import deliver_12 from "../../public/movie_deliberation_12.svg";
+import deliver_15 from "../../public/movie_deliberation_15.svg";
+import deliver_19 from "../../public/movie_deliberation_19.svg";
 dayjs.extend(isBetween);
 
 export const kindName = (type: string) => {
@@ -36,6 +40,25 @@ export const deliverationName = (type: string) => {
       break;
     case "30":
       str = "청소년관람불가";
+      break;
+  }
+  return str;
+};
+
+export const deliverationImg = (type: string) => {
+  let str = "";
+  switch (type) {
+    case "00":
+      str = deliver_all;
+      break;
+    case "10":
+      str = deliver_12;
+      break;
+    case "20":
+      str = deliver_15;
+      break;
+    case "30":
+      str = deliver_19;
       break;
   }
   return str;

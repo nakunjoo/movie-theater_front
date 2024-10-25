@@ -3,7 +3,7 @@ import { useEffect, useState, type ReactElement } from "react";
 import { TheaterForm } from "@/components/manager/theater/TheaterForm";
 import { useRouter } from "next/router";
 import { Axios } from "@/lib/Axios";
-import { TheaterType } from "@/types/manager/Theater";
+import { TheaterType } from "@/lib/types";
 
 const TheaterDetail = () => {
   const router = useRouter();

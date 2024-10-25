@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MovieType } from "@/types/manager/Movie";
+import { MovieType } from "@/lib/types";
 import { Axios } from "@/lib/Axios";
 import { useRouter } from "next/router";
 import { Icon } from "@iconify/react";

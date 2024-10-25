@@ -1,8 +1,8 @@
 import { Axios } from "@/lib/Axios";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { MovieType } from "@/types/manager/Movie";
-import { TheaterType, ScreeningType } from "@/types/manager/Theater";
+import { MovieType } from "@/lib/types";
+import { TheaterType, ScreeningType } from "@/lib/types";
 import { hourList, minList } from "@/lib/TheaterData";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
@@ -82,6 +82,7 @@ export const ScreeningModal = ({
       const movie = { ...selectMovie };
       movie.img_url = "";
       const showtime: ScreeningType = {
+        id: "",
         movie_id: movie,
         theater_id: theater,
         kind,

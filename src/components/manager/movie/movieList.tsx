@@ -1,4 +1,4 @@
-import { MovieType } from "@/types/manager/Movie";
+import { MovieType } from "@/lib/types";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";

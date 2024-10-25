@@ -3,7 +3,7 @@ import { useEffect, useState, type ReactElement } from "react";
 import { MovieForm } from "@/components/manager/movie/MovieForm";
 import { useRouter } from "next/router";
 import { Axios } from "@/lib/Axios";
-import { MovieType } from "@/types/manager/Movie";
+import { MovieType } from "@/lib/types";
 
 const MovieDetail = () => {
   const router = useRouter();

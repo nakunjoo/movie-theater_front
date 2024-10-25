@@ -1,4 +1,4 @@
-import { TheaterType } from "@/types/manager/Theater";
+import { TheaterType } from "@/lib/types";
 import { kindName } from "@/lib/TypeValue";
 import { useRouter } from "next/router";
 import Link from "next/link";

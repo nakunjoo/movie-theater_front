@@ -1,4 +1,4 @@
-import { TheaterSeat } from "@/types/manager/Theater";
+import { TheaterSeat } from "@/lib/types";
 export const theaterKind = [
   {
     name: "2D",

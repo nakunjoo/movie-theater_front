@@ -2,7 +2,7 @@ import { MainLayout } from "@/layouts/manager/MainLayout";
 import { useEffect, useState, type ReactElement } from "react";
 import { MovieForm } from "@/components/manager/movie/MovieForm";
 import { useRouter } from "next/router";
-import { MovieType } from "@/types/manager/Movie";
+import { MovieType } from "@/lib/types";
 
 const MovieUpdate = () => {
   const router = useRouter();
