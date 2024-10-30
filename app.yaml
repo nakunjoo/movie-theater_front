@@ -1,0 +1,12 @@
+runtime: nodejs20
+
+# instance_class: F1
+service: movie-theater
+
+handlers:
+  - url: /.*
+    secure: always
+    script: auto
+
+env_variables:
+  NODE_ENV: "production"

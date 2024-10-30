@@ -5,9 +5,11 @@ let base_url = "";
 if (process.env.NODE_ENV === "development") {
   base_url = "http://localhost:3000/api";
 } else if (process.env.NODE_ENV === "test") {
-  base_url = "https://erp-app-395907.du.r.appspot.com/api";
+  base_url =
+    "https://movie-theater-serve-dot-teak-banner-431004-n3.du.r.appspot.com/api";
 } else if (process.env.NODE_ENV === "production") {
-  base_url = "https://erp-app-395907.du.r.appspot.com/api";
+  base_url =
+    "https://movie-theater-serve-dot-teak-banner-431004-n3.du.r.appspot.com/api";
 }
 console.log("base_url:", base_url);
 export const Axios: AxiosInstance = axios.create({
