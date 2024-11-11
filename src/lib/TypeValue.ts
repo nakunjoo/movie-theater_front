@@ -26,7 +26,7 @@ export const kindName = (type: string) => {
   return str;
 };
 
-export const deliverationName = (type: string) => {
+export const deliberationName = (type: string) => {
   let str = "";
   switch (type) {
     case "00":
@@ -45,7 +45,7 @@ export const deliverationName = (type: string) => {
   return str;
 };
 
-export const deliverationImg = (type: string) => {
+export const deliberationImg = (type: string) => {
   let str = "";
   switch (type) {
     case "00":
@@ -92,4 +92,29 @@ export const includeTime = (date: string, screeningList: ScreeningType[]) => {
     }
   }
   return false;
+};
+
+export const Commas = (num: number) => {
+  let number = "";
+  number = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return number;
+};
+
+export const phoneNumberSet = (phone: string) => {
+  let str = "";
+  str = phone.replaceAll("-", "");
+  return str;
+};
+
+export const reservationStatus = (status: string) => {
+  let str = "";
+  switch (status) {
+    case "00":
+      str = "예매완료";
+      break;
+    case "20":
+      str = "예매취소";
+      break;
+  }
+  return str;
 };

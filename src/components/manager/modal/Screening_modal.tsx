@@ -23,7 +23,7 @@ import "swiper/css/pagination";
 // import required modules
 import { EffectCoverflow, Navigation } from "swiper/modules";
 import dayjs from "dayjs";
-import { deliverationName, kindName } from "@/lib/TypeValue";
+import { deliberationName, kindName } from "@/lib/TypeValue";
 
 export const ScreeningModal = ({
   setModalView,
@@ -40,7 +40,7 @@ export const ScreeningModal = ({
   const [screeningList, setScreeningList] = useState<ScreeningType[]>([]);
 
   useEffect(() => {
-    Axios.get("/movie/list").then((res) => {
+    Axios.get("/movie/manager_list").then((res) => {
       setMovieList(res.data.data);
     });
   }, []);
@@ -94,6 +94,7 @@ export const ScreeningModal = ({
           .add(selectMovie?.showtime + 20, "minute")
           .format("YYYY-MM-DD HH:mm"),
         create: true,
+        reservation_amount: 0,
       };
 
       if (includeTime(showtime.ready_time, screeningList)) {
@@ -129,7 +130,6 @@ export const ScreeningModal = ({
       screeningList,
     })
       .then((res) => {
-        console.log(res.data);
         if (res.data.success) {
           alert("상영 영화가 등록되었습니다.");
           setModalView(false);
@@ -282,7 +282,7 @@ export const ScreeningModal = ({
                     <p className="2xl:text-lg text-base mt-1">
                       심의:{" "}
                       <span className="2xl:text-base text-sm">
-                        {deliverationName(selectMovie.deliberation)}
+                        {deliberationName(selectMovie.deliberation)}
                       </span>
                     </p>
                     <p className="2xl:text-lg text-base mt-1">

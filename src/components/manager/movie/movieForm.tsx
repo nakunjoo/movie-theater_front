@@ -4,7 +4,7 @@ import { Axios } from "@/lib/Axios";
 import { useRouter } from "next/router";
 import { Icon } from "@iconify/react";
 import { MovieGenre, MovieDeliberation } from "@/lib/MovieData";
-import { deliverationName } from "@/lib/TypeValue";
+import { deliberationName } from "@/lib/TypeValue";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale/ko";
@@ -306,7 +306,7 @@ export const MovieForm = ({
                       setDeliberation(data.value);
                     }}
                   >
-                    {deliverationName(data.value)}
+                    {deliberationName(data.value)}
                   </li>
                 );
               })}

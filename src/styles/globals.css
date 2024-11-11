@@ -97,6 +97,18 @@ body {
   display: none;
 }
 
+.movieSwiper {
+  width: 100%;
+  margin: 0 auto;
+
+  .swiper-button-prev {
+    left: 0px;
+  }
+  .swiper-button-next {
+    right: 0px;
+  }
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

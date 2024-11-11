@@ -4,7 +4,7 @@ import { Axios } from "@/lib/Axios";
 import { useRouter } from "next/router";
 import { TheaterType } from "@/lib/types";
 import { ScreeningModal } from "../modal/Screening_modal";
-import { SeatForm } from "@/components/public/SeatForm";
+import { SeatForm } from "@/components/manager/theater/SeatForm";
 
 export const TheaterForm = ({
   type,
@@ -239,6 +239,7 @@ export const TheaterForm = ({
           type={type}
           lineEvent={changeLine}
           numberSeat={numberSeat}
+          reservationSeat={[]}
         />
       </div>
       {modalView ? (

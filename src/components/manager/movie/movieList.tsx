@@ -2,10 +2,10 @@ import { MovieType } from "@/lib/types";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import { deliverationName } from "@/lib/TypeValue";
+import { deliberationName } from "@/lib/TypeValue";
 import dayjs from "dayjs";
 
-export const MovieList = ({ movieList }: { movieList: MovieType[] }) => {
+export const ManagerMovieList = ({ movieList }: { movieList: MovieType[] }) => {
   const router = useRouter();
 
   return (
@@ -73,7 +73,7 @@ export const MovieList = ({ movieList }: { movieList: MovieType[] }) => {
                       심의
                     </span>
                     <span className="2xl:w-[85%] w-[80%] 2xl:text-base text-sm mt-0.5 text-right block truncate">
-                      {deliverationName(movie.deliberation)}
+                      {deliberationName(movie.deliberation)}
                     </span>
                   </p>
                   <p className="flex justify-between mt-2">

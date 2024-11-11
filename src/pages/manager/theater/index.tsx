@@ -7,7 +7,7 @@ import { Axios } from "@/lib/Axios";
 const TheaterMain = () => {
   const [theaterList, setTheaterList] = useState([]);
   useEffect(() => {
-    Axios.get("/theater/list").then((res) => {
+    Axios.get("/theater/manager_list").then((res) => {
       setTheaterList(res.data.data);
     });
   }, []);

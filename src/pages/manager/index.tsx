@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import { Axios } from "@/lib/Axios";
 
-const Home = () => {
+const ManagerHome = () => {
   const [account_name, setAccountName] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -37,6 +37,7 @@ const Home = () => {
       <div className="container text-center flex justify-center">
         <div className="w-[500px] h-[550px] border border-black border-solid rounded">
           <h2 className="text-[50px] mt-8 font-bold">LOGIN</h2>
+          <p>테스트 id: qwer, pw: 1234</p>
           <div className="w-[70%] mt-20 mx-auto">
             <input
               type="text"
@@ -68,7 +69,7 @@ const Home = () => {
     </div>
   );
 };
-Home.getLayout = function getLayout(page: ReactElement) {
+ManagerHome.getLayout = function getLayout(page: ReactElement) {
   return <LoginLayout>{page}</LoginLayout>;
 };
-export default Home;
+export default ManagerHome;

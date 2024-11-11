@@ -1,41 +1,39 @@
-import { MainLayout } from "@/layouts/manager/MainLayout";
+import { Main } from "@/layouts/Main";
 import { useRouter } from "next/router";
 import { useEffect, useState, type ReactElement } from "react";
 import { Axios } from "@/lib/Axios";
 import { ScreeningType } from "@/lib/types";
-import { ScreeningForm } from "@/components/manager/screening/ScreeningForm";
+import { MovieSeat } from "@/components/movie/MovieSeat";
 
-const ScreeningDetail = () => {
+const ScreeningSeat = () => {
   const [screening, setScreening] = useState<ScreeningType | null>(null);
   const [reservationSeat, setReservationSeat] = useState<string[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     if (!router.query.id) return;
-    Axios.get(`/screening/detail?screening_id=${router.query.id}`)
+    Axios.get(`/screening/seat_list?screening_id=${router.query.id}`)
       .then((res) => {
         for (const seat of res.data.data.theater_id.seat) {
           seat.rows = JSON.parse(seat.rows);
         }
-        const seats = [];
+        const arr = [];
         for (const reservation of res.data.data.reservation) {
           for (const seat of reservation.seat) {
-            seats.push(seat);
+            arr.push(seat);
           }
         }
         setScreening(res.data.data);
-        setReservationSeat(seats);
+        setReservationSeat(arr);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [router]);
 
-  return (
-    <ScreeningForm screening={screening} reservationSeat={reservationSeat} />
-  );
+  return <MovieSeat screening={screening} reservationSeat={reservationSeat} />;
 };
-ScreeningDetail.getLayout = function getLayout(page: ReactElement) {
-  return <MainLayout>{page}</MainLayout>;
+ScreeningSeat.getLayout = function getLayout(page: ReactElement) {
+  return <Main>{page}</Main>;
 };
-export default ScreeningDetail;
+export default ScreeningSeat;

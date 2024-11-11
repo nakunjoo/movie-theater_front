@@ -36,4 +36,17 @@ export type ScreeningType = {
   end_time: string;
   ready_time: string;
   create: boolean | undefined;
+  reservation_amount: number;
+};
+
+export type ReservationType = {
+  id: string;
+  name: string;
+  phone: string;
+  seat: string[];
+  status: string;
+  amount: number;
+  payment_price: number;
+  createdAt: Date;
+  screening_id: ScreeningType;
 };

@@ -1,18 +1,20 @@
-import { SeatForm } from "@/components/public/SeatForm";
+import { SeatForm } from "@/components/manager/theater/SeatForm";
 import { ScreeningType } from "@/lib/types";
 import Image from "next/image";
 import dayjs from "dayjs";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import { setLineData } from "@/lib/TheaterData";
-import { deliverationImg, kindName } from "@/lib/TypeValue";
+import { deliberationImg, kindName } from "@/lib/TypeValue";
 import { Axios } from "@/lib/Axios";
 import { useRouter } from "next/router";
 
 export const ScreeningForm = ({
   screening,
+  reservationSeat,
 }: {
   screening: ScreeningType | null;
+  reservationSeat: string[];
 }) => {
   const router = useRouter();
   const [lines, setLines] = useState(setLineData);
@@ -77,7 +79,7 @@ export const ScreeningForm = ({
                 {screening?.movie_id.title}
                 <Image
                   className="ml-1"
-                  src={deliverationImg(screening?.movie_id.deliberation)}
+                  src={deliberationImg(screening?.movie_id.deliberation)}
                   alt=""
                   width={18}
                   height={18}
@@ -149,6 +151,7 @@ export const ScreeningForm = ({
           type={"detail"}
           lineEvent={() => {}}
           numberSeat={null}
+          reservationSeat={reservationSeat}
         />
       </div>
     </div>
