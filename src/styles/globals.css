@@ -36,7 +36,7 @@ body {
   margin: 0 auto;
   height: calc(100vh - 5rem);
   overflow-y: auto;
-  padding-bottom: 100px;
+  padding-bottom: 40px;
 }
 
 .modalWrap {
@@ -106,6 +106,44 @@ body {
   }
   .swiper-button-next {
     right: 0px;
+  }
+}
+
+.reservationTableWrap {
+  width: 100%;
+  height: calc(100vh - 18rem);
+  margin-top: 20px;
+  overflow: auto;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid #000;
+
+  > table {
+    width: 100%;
+    border-collapse: collapse;
+    border-style: hidden;
+    > thead {
+      height: 40px;
+      > tr {
+        text-align: center;
+        border-bottom: 1px solid #000;
+        > th {
+          border-right: 1px solid #000;
+        }
+      }
+    }
+
+    > tbody {
+      > tr {
+        text-align: center;
+        border-bottom: 1px solid #000;
+        > td {
+          height: 40px;
+          word-break: break-all;
+          border-right: 1px solid #000;
+        }
+      }
+    }
   }
 }
 
