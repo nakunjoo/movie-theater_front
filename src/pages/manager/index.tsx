@@ -23,7 +23,7 @@ const ManagerHome = () => {
             "Authorization",
             `Bearer ${res.data.data.token}`
           );
-          router.push("/manager/theater");
+          router.push("/manager/reservation");
         }
       })
       .catch((error) => {
