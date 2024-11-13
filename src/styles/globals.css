@@ -135,6 +135,7 @@ body {
 
     > tbody {
       > tr {
+        cursor: pointer;
         text-align: center;
         border-bottom: 1px solid #000;
         > td {
@@ -145,6 +146,23 @@ body {
       }
     }
   }
+}
+.reservationTableWrap::-webkit-scrollbar {
+  width: 10px;
+}
+
+.reservationTableWrap::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #dccbe7;
+  cursor: pointer;
+}
+.reservationTableWrap::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #9672f8;
+  cursor: pointer;
+}
+.reservationTableWrap::-webkit-scrollbar-button {
+  display: none;
 }
 
 /* Chrome, Safari, Edge, Opera */

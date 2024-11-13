@@ -17,22 +17,25 @@ export const ReservationForm = ({
   page: string;
 }) => {
   const router = useRouter();
-  const reservationCancel = () => {
+  const reservationCancel = async () => {
     if (!reservation) return;
-    Axios.patch("/reservation/cencel", {
-      reservation_id: reservation.id,
-    })
-      .then((res) => {
-        if (res.data.success === true) {
-          alert("예매가 취소되었습니다.");
-          router.push(
-            `/reservation/list?name=${reservation.name}&phone=${reservation.phone}`
-          );
-        }
+    const check = confirm("예매를 취소하시겠습니까?");
+    if (check) {
+      await Axios.patch("/reservation/cencel", {
+        reservation_id: reservation.id,
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => {
+          if (res.data.success === true) {
+            alert("예매가 취소되었습니다.");
+            router.push(
+              `/reservation/list?name=${reservation.name}&phone=${reservation.phone}`
+            );
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -60,11 +63,29 @@ export const ReservationForm = ({
           )}
         </div>
         {reservation ? (
-          <div className="w-[60%] mt-8 p-4">
+          <div className="w-[60%] mt-4 p-4">
             <p className="w-full flex justify-between">
               <span className="w-[20%] block">예매번호 :</span>{" "}
               <span className="w-[80%] block font-bold">{reservation.id}</span>
             </p>
+            {page === "admin_detail" ? (
+              <>
+                <p className="w-full flex justify-between mt-4">
+                  <span className="w-[20%] block">예매자 명 :</span>{" "}
+                  <span className="w-[80%] block font-bold">
+                    {reservation.name}
+                  </span>
+                </p>
+                <p className="w-full flex justify-between mt-4">
+                  <span className="w-[20%] block">예매자 번호 :</span>{" "}
+                  <span className="w-[80%] block font-bold">
+                    {reservation.phone}
+                  </span>
+                </p>
+              </>
+            ) : (
+              <></>
+            )}
             <p className="w-full flex justify-between mt-4">
               <span className="w-[20%] block">영화 :</span>{" "}
               <span className="w-[80%] block font-bold">
@@ -133,7 +154,7 @@ export const ReservationForm = ({
                   </Link>
                 </li>
               </ul>
-            ) : (
+            ) : page === "detail" ? (
               <ul className="mt-8 flex justify-between">
                 <li className="w-[45%]">
                   <Link
@@ -143,6 +164,24 @@ export const ReservationForm = ({
                     예매확인
                   </Link>
                 </li>
+                {reservation.status === "00" ? (
+                  <li className="w-[45%] ">
+                    <button
+                      type="button"
+                      className="block w-full text-center p-6 font-bold text-lg rounded cursor-pointer bg-red-600 text-white"
+                      onClick={() => {
+                        reservationCancel();
+                      }}
+                    >
+                      예매취소
+                    </button>
+                  </li>
+                ) : (
+                  <></>
+                )}
+              </ul>
+            ) : (
+              <ul className="mt-8 flex justify-between">
                 {reservation.status === "00" ? (
                   <li className="w-[45%] ">
                     <button

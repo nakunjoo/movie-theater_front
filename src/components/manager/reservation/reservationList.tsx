@@ -1,13 +1,8 @@
 import { ReservationType } from "@/lib/types";
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-  type ReactElement,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { reservationStatus } from "@/lib/TypeValue";
+import { useRouter } from "next/router";
 
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,9 +23,10 @@ export const ReservationList = ({
   setEndDate: Dispatch<SetStateAction<Date | null>>;
   reservationList: ReservationType[];
 }) => {
+  const router = useRouter();
   const [tableData, setTableData] = useState<ReservationType[]>([]);
   const [movieSearch, setMovieSearch] = useState<string>("");
-  const [movieList, setMovieList] = useState<string[]>([]);
+  // const [movieList, setMovieList] = useState<string[]>([]);
   const [nameSearch, setNameSearch] = useState<string>("");
 
   useEffect(() => {
@@ -125,7 +121,14 @@ export const ReservationList = ({
           <tbody>
             {tableData.map((reservation, index) => {
               return (
-                <tr key={`reservation-list-table-${index}`}>
+                <tr
+                  key={`reservation-list-table-${index}`}
+                  onClick={() => {
+                    router.push(
+                      `/manager/reservation/detail?id=${reservation.id}`
+                    );
+                  }}
+                >
                   <td>{reservation.screening_id.movie_id.title}</td>
                   <td>{reservation.screening_id.theater_id.name}</td>
                   <td>{reservation.name}</td>
