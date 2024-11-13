@@ -71,6 +71,7 @@ export const ScreeningForm = ({
                   alt=""
                   width={396}
                   height={568}
+                  unoptimized={true}
                 />
               </div>
             </div>

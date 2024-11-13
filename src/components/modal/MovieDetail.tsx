@@ -41,6 +41,7 @@ export const MovieDetail = ({
                 alt=""
                 width={248}
                 height={355}
+                unoptimized={true}
               />
               <Image
                 className="absolute top-3 left-8"

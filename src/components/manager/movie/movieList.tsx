@@ -40,6 +40,7 @@ export const ManagerMovieList = ({ movieList }: { movieList: MovieType[] }) => {
                       alt=""
                       width={396}
                       height={568}
+                      unoptimized={true}
                     />
                   ) : (
                     <></>

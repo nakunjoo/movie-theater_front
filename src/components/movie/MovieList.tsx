@@ -38,6 +38,7 @@ export const MovieList = ({ movieList }: { movieList: MovieType[] | null }) => {
                         alt=""
                         width={223}
                         height={320}
+                        unoptimized={true}
                         onClick={() => {
                           setSelectMovie(movie);
                           setModalView(true);

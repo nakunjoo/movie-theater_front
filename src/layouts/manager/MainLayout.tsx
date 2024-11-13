@@ -37,11 +37,6 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
       name: "영화 관리",
       url: "/manager/movie",
     },
-    {
-      num: 4,
-      name: "고객 관리",
-      url: "/manager/customer",
-    },
   ];
   useEffect(() => {
     for (const menu of menus) {

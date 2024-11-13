@@ -188,6 +188,7 @@ export const ScreeningModal = ({
                         alt=""
                         width={150}
                         height={210}
+                        unoptimized={true}
                       />
                     </SwiperSlide>
                   );

@@ -215,7 +215,13 @@ export const MovieForm = ({
                   />
                 )}
 
-                <Image src={imgUrl} alt="" width={396} height={568} />
+                <Image
+                  src={imgUrl}
+                  alt=""
+                  width={396}
+                  height={568}
+                  unoptimized={true}
+                />
               </div>
             ) : (
               <div className="w-full h-full">

@@ -57,6 +57,7 @@ export const ReservationForm = ({
               alt=""
               width={322}
               height={461}
+              unoptimized={true}
             />
           ) : (
             <></>
